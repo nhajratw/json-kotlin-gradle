@@ -12,9 +12,8 @@ val displayName = "JSON Schema Code Generation Plugin"
 val projectURL = "https://github.com/pwall567/${project.name}"
 
 plugins {
-    kotlin("jvm") version "2.0.21"
-    id("org.jetbrains.dokka") version "2.1.0"
-    id("org.jetbrains.dokka-javadoc") version "2.0.0"
+    kotlin("jvm") version "2.2.20"
+    id("org.jetbrains.dokka-javadoc") version "2.1.0"
     id("io.github.gradle-nexus.publish-plugin") version "2.0.0"
     id("com.github.ben-manes.versions") version "0.53.0"
     `kotlin-dsl`
@@ -29,8 +28,8 @@ repositories {
 kotlin {
     jvmToolchain(21)
     compilerOptions {
-        languageVersion.set(KotlinVersion.KOTLIN_2_0)
-        apiVersion.set(KotlinVersion.KOTLIN_2_0)
+        languageVersion.set(KotlinVersion.KOTLIN_2_2)
+        apiVersion.set(KotlinVersion.KOTLIN_2_2)
     }
 }
 
