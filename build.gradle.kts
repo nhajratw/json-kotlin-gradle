@@ -26,7 +26,7 @@ repositories {
 }
 
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(21)
     compilerOptions {
         languageVersion.set(KotlinVersion.KOTLIN_2_0)
         apiVersion.set(KotlinVersion.KOTLIN_2_0)
@@ -51,7 +51,7 @@ tasks {
         outputDirectory.set(layout.buildDirectory.dir("javadoc"))
         dokkaSourceSets.configureEach {
             reportUndocumented.set(false)
-            jdkVersion.set(17)
+            jdkVersion.set(21)
             perPackageOption {
                 matchingRegex.set(".*\\.internal($|\\.).*")
                 suppress.set(true)
