@@ -13,7 +13,8 @@ val projectURL = "https://github.com/pwall567/${project.name}"
 
 plugins {
     kotlin("jvm") version "2.0.21"
-    id("org.jetbrains.dokka") version "2.0.0"
+    id("org.jetbrains.dokka") version "2.1.0"
+    id("org.jetbrains.dokka-javadoc") version "2.0.0"
     id("io.github.gradle-nexus.publish-plugin") version "2.0.0"
     id("com.github.ben-manes.versions") version "0.53.0"
     `kotlin-dsl`
@@ -33,6 +34,21 @@ kotlin {
     }
 }
 
+dokka {
+    dokkaPublications.javadoc {
+        outputDirectory.set(layout.buildDirectory.dir("javadoc"))
+    }
+
+    dokkaSourceSets.configureEach {
+        reportUndocumented.set(false)
+        jdkVersion.set(21)
+        perPackageOption {
+            matchingRegex.set(".*\\.internal($|\\.).*")
+            suppress.set(true)
+        }
+    }
+}
+
 tasks {
     val sourcesJar by registering(Jar::class) {
         archiveClassifier.set("sources")
@@ -40,29 +56,18 @@ tasks {
     }
     val javadocJar by registering(Jar::class) {
         archiveClassifier.set("javadoc")
-        from(dokkaJavadoc)
-        dependsOn(dokkaJavadoc)
+        from(dokkaGeneratePublicationJavadoc)
+        dependsOn(dokkaGeneratePublicationJavadoc)
     }
     artifacts {
         add("archives", sourcesJar)
         add("archives", javadocJar)
     }
-    dokkaJavadoc {
-        outputDirectory.set(layout.buildDirectory.dir("javadoc"))
-        dokkaSourceSets.configureEach {
-            reportUndocumented.set(false)
-            jdkVersion.set(21)
-            perPackageOption {
-                matchingRegex.set(".*\\.internal($|\\.).*")
-                suppress.set(true)
-            }
-        }
-    }
     javadoc {
         enabled = false
     }
     named<Jar>("javadocJar").configure {
-        from(dokkaJavadoc)
+        from(dokkaGeneratePublicationJavadoc)
     }
 }
 
@@ -73,7 +78,7 @@ dependencies {
     implementation("io.kjson:kjson-pointer:8.12")
     testImplementation(kotlin("test"))
     testImplementation(kotlin("test-junit"))
-    testImplementation("io.kstuff:should-test:4.5")
+    testImplementation("io.kstuff:should-test:4.6")
 }
 
 publishing {
