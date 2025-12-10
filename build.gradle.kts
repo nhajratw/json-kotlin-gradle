@@ -15,6 +15,7 @@ plugins {
     kotlin("jvm") version "2.0.21"
     id("org.jetbrains.dokka") version "2.0.0"
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
+    id("com.github.ben-manes.versions") version "0.53.0"
     `kotlin-dsl`
     `maven-publish`
     signing
@@ -25,7 +26,7 @@ repositories {
 }
 
 kotlin {
-    jvmToolchain(11)
+    jvmToolchain(17)
     compilerOptions {
         languageVersion.set(KotlinVersion.KOTLIN_2_0)
         apiVersion.set(KotlinVersion.KOTLIN_2_0)
@@ -50,7 +51,7 @@ tasks {
         outputDirectory.set(file("$buildDir/javadoc"))
         dokkaSourceSets.configureEach {
             reportUndocumented.set(false)
-            jdkVersion.set(8)
+            jdkVersion.set(17)
             perPackageOption {
                 matchingRegex.set(".*\\.internal($|\\.).*")
                 suppress.set(true)
@@ -66,11 +67,10 @@ tasks {
 }
 
 dependencies {
-    implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("gradle-plugin"))
-    implementation("net.pwall.json:json-kotlin-schema:0.56")
-    implementation("net.pwall.json:json-kotlin-schema-codegen:0.121")
-    implementation("io.kjson:kjson-pointer:8.8")
+    implementation("net.pwall.json:json-kotlin-schema:0.57")
+    implementation("net.pwall.json:json-kotlin-schema-codegen:0.123")
+    implementation("io.kjson:kjson-pointer:8.12")
     testImplementation(kotlin("test"))
     testImplementation(kotlin("test-junit"))
     testImplementation("io.kstuff:should-test:4.5")
