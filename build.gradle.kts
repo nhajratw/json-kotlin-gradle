@@ -14,7 +14,7 @@ val projectURL = "https://github.com/pwall567/${project.name}"
 plugins {
     kotlin("jvm") version "2.0.21"
     id("org.jetbrains.dokka") version "2.0.0"
-    id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
+    id("io.github.gradle-nexus.publish-plugin") version "2.0.0"
     id("com.github.ben-manes.versions") version "0.53.0"
     `kotlin-dsl`
     `maven-publish`
@@ -34,11 +34,11 @@ kotlin {
 }
 
 tasks {
-    val sourcesJar by creating(Jar::class) {
+    val sourcesJar by registering(Jar::class) {
         archiveClassifier.set("sources")
         from(sourceSets["main"].allSource)
     }
-    val javadocJar by creating(Jar::class) {
+    val javadocJar by registering(Jar::class) {
         archiveClassifier.set("javadoc")
         from(dokkaJavadoc)
         dependsOn(dokkaJavadoc)
@@ -48,7 +48,7 @@ tasks {
         add("archives", javadocJar)
     }
     dokkaJavadoc {
-        outputDirectory.set(file("$buildDir/javadoc"))
+        outputDirectory.set(layout.buildDirectory.dir("javadoc"))
         dokkaSourceSets.configureEach {
             reportUndocumented.set(false)
             jdkVersion.set(17)
