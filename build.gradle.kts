@@ -58,9 +58,8 @@ tasks {
         from(dokkaGeneratePublicationJavadoc)
         dependsOn(dokkaGeneratePublicationJavadoc)
     }
-    artifacts {
-        add("archives", sourcesJar)
-        add("archives", javadocJar)
+    assemble {
+        dependsOn(sourcesJar, javadocJar)
     }
     javadoc {
         enabled = false
